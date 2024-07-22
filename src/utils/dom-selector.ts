@@ -12,7 +12,7 @@ export function $<T extends HTMLElement>(
 	context: Document | HTMLElement = document
 ) {
 	const $element = context.querySelector<T>(selector)
-	if ($element) throw new Error(`Element "${selector}" not found`)
+	if (!$element) throw new Error(`Element "${selector}" not found`)
 	return $element
 }
 
