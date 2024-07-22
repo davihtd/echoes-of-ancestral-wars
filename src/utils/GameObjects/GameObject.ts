@@ -1,15 +1,22 @@
-export default class GameObject {
-  constructor(element: HTMLElement, x: number, y: number, width: number, height: number) {
+interface Options {
+  x?: number
+  y?: number
+  width?: number
+  height?: number
+}
+
+export default class GameObject<T extends HTMLElement> {
+  constructor(element: T, options: Options) {
     element.style.position = 'absolute'
 
     this.#element = element
-    this.x = x
-    this.y = y
-    this.width = width
-    this.height = height
+    if (options.x) this.x = options.x
+    if (options.y) this.y = options.y
+    if (options.width) this.width = options.width
+    if (options.height) this.height = options.height
   }
 
-  #element: HTMLElement;
+  #element: T
 
   #getStyleNumber(value: string, unit: 'px' | 'deg'): number {
     return Number(value.slice(0, -unit.length))
