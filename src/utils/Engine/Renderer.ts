@@ -1,18 +1,22 @@
+
+type UpdateCallback = () => void
+
 class Renderer {
   #executionID: number | null = null;
   #lastRegisteredTime = 0;
   #fps = 0;
+  #updateCallback: UpdateCallback = () => {};
   
 
   /**
    * Inicia el juego
    * @param currentTime Es el tiempo desde que se ejecuto requestAnimationFrame frame por primera vez
    */
-  startGame(currentTime: DOMHighResTimeStamp) {
+  startGame(currentTime: DOMHighResTimeStamp = 0) {
     this.#executionID = requestAnimationFrame(this.startGame)
     this.#updateFPS(currentTime)
 
-    this.#updateGame()
+    this.#updateCallback()
   }
 
   stopGame() {
@@ -34,11 +38,9 @@ class Renderer {
     }
   }
 
-  #updateGame() {
-
+  onFrameChange(callback: UpdateCallback) {
+    this.#updateCallback = callback
   }
 }
 
-const renderer = new Renderer()
-
-export default renderer
+export default new Renderer()
