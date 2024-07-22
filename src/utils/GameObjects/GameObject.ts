@@ -6,7 +6,7 @@ interface Options {
 }
 
 export default class GameObject<T extends HTMLElement> {
-  constructor(element: T, options: Options) {
+  constructor(element: T, options: Options = {}) {
     element.style.position = 'absolute'
 
     this.#element = element
