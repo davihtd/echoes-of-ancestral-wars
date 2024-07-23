@@ -3,27 +3,29 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <script>
-	import renderer from "../utils/Engine/FPSController";
+	import FPSController from "../utils/Engine/FPSController";
 	import { $ } from "../utils/dom-selector";
 
+	const $fps = $<HTMLDivElement>("#fps");
+
 	$<HTMLButtonElement>("#start-game-btn").addEventListener("click", () => {
-		window.alert("Revisa la consola del navegador");
-		renderer.startGame();
+		FPSController.startGame();
 	});
 
-	renderer.addEvent(() => {
-		console.log("FPS: ", renderer.FPS);
+	$<HTMLButtonElement>("#stop-game-btn").addEventListener("click", () => {
+		FPSController.stopGame();
+		$fps.innerText = 'FPS: 0'
 	});
 
-	$<HTMLButtonElement>("#stop-game-btn").addEventListener(
-		"click",
-		renderer.stopGame,
-	);
+	FPSController.addEvent(() => {
+		$fps.innerText = `FPS: ${FPSController.FPS}`;
+	});
 </script>
 
 <Layout title="Echoes of Ancestral Wars">
 	<main>
 		<div id="map"></div>
+		<div id="fps">FPS: 0</div>
 		<button id="start-game-btn">Iniciar juego</button>
 		<button id="stop-game-btn">Finalizar juego</button>
 	</main>
@@ -39,54 +41,11 @@ import Layout from "../layouts/Layout.astro";
 		font-size: 20px;
 		line-height: 1.6;
 	}
-	.astro-a {
-		position: absolute;
-		top: -32px;
-		left: 50%;
-		transform: translatex(-50%);
-		width: 220px;
-		height: auto;
-		z-index: -1;
-	}
-	h1 {
-		font-size: 4rem;
-		font-weight: 700;
-		line-height: 1;
-		text-align: center;
-		margin-bottom: 1em;
-	}
-	.text-gradient {
-		background-image: var(--accent-gradient);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-size: 400%;
-		background-position: 0%;
-	}
-	.instructions {
-		margin-bottom: 2rem;
-		border: 1px solid rgba(var(--accent-light), 25%);
-		background: linear-gradient(
-			rgba(var(--accent-dark), 66%),
-			rgba(var(--accent-dark), 33%)
-		);
-		padding: 1.5rem;
-		border-radius: 8px;
-	}
-	.instructions code {
-		font-size: 0.8em;
-		font-weight: bold;
-		background: rgba(var(--accent-light), 12%);
-		color: rgb(var(--accent-light));
-		border-radius: 4px;
-		padding: 0.3em 0.4em;
-	}
-	.instructions strong {
-		color: rgb(var(--accent-light));
-	}
-	.link-card-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
-		gap: 2rem;
-		padding: 0;
+
+	#fps {
+		position: fixed;
+
+		top: 30px;
+		right: 30px;
 	}
 </style>
