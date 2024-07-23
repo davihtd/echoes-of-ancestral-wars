@@ -31,6 +31,10 @@ const FPSController = {
   stopGame() {
     if (typeof FPSController._executionID != 'number') return;
     cancelAnimationFrame(FPSController._executionID)
+    FPSController._executionID = null
+    FPSController._lastRegisteredTime = 0
+    FPSController.FPS = 0
+    FPSController.currentFrame = 0
   },
   addEvent(event: Callback) {
     this.events.push(event)
@@ -38,3 +42,13 @@ const FPSController = {
 }
 
 export default FPSController
+
+/**Retorna la misma función pero modificada para que solo se ejecute una vez por fotograma */
+export function getDebouncedFn(fn: Callback): Callback {
+  let prevFrame: null | number = null;
+  return () => {
+    if (prevFrame == FPSController.currentFrame) return;
+    prevFrame = FPSController.currentFrame;
+    fn()
+  }
+}

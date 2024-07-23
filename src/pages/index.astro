@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <script>
-	import FPSController from "../utils/Engine/FPSController";
+	import FPSController, { getDebouncedFn } from "../utils/Engine/FPSController";
 	import { $ } from "../utils/dom-selector";
 
 	const $fps = $<HTMLDivElement>("#fps");
@@ -14,11 +14,20 @@ import Layout from "../layouts/Layout.astro";
 
 	$<HTMLButtonElement>("#stop-game-btn").addEventListener("click", () => {
 		FPSController.stopGame();
-		$fps.innerText = 'FPS: 0'
+		$fps.innerText = "FPS: 0";
 	});
 
 	FPSController.addEvent(() => {
 		$fps.innerText = `FPS: ${FPSController.FPS}`;
+	});
+
+	const callback = getDebouncedFn(() => {
+		console.log("Presionando F");
+	});
+	document.body.addEventListener("keydown", (e) => {
+		console.log(e.key)
+		if (e.key != "f") return;
+		callback();
 	});
 </script>
 
