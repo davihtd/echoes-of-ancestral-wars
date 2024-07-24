@@ -7,7 +7,7 @@
  * @param context
  * @returns  HTMLElement
  */
-export function $<T extends HTMLElement>(
+export default function $<T extends HTMLElement>(
 	selector: string,
 	context: Document | HTMLElement = document
 ) {
