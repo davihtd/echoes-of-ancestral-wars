@@ -31,3 +31,6 @@ pnpm-debug.log*
 /public/**/*.tmx
 /public/**/*.txt
 *.tiled-*
+
+# editor
+/.vscode/**
