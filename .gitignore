@@ -26,3 +26,8 @@ pnpm-debug.log*
 # debbug
 *.debbug
 *.debbug.*
+
+# tiled files
+/public/**/*.tmx
+/public/**/*.txt
+*.tiled-*
