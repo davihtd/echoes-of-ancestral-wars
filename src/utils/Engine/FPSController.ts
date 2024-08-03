@@ -6,7 +6,12 @@ export default class FPSController {
   private static lastRegisteredTimeAfterSecond = 0;
   private static lastRegisteredTime = 0;
   private static events: Callback[] = [];
-  
+
+  private static _gameIsRunning = false;
+  public static get gameIsRunning() {
+    return FPSController._gameIsRunning;
+  }
+
   private static _currentFrame = 0;
   /** @deprecated Ya no hay razón para que sea publico. Solo hace falta eliminar getDebouncedFn */
   public static get currentFrame() {
@@ -31,6 +36,7 @@ export default class FPSController {
   }
 
   static startGame(currentTime: DOMHighResTimeStamp = 0) {
+    FPSController._gameIsRunning = true
     FPSController._delta = (currentTime - FPSController.lastRegisteredTime) / 1000
     FPSController.lastRegisteredTime = currentTime
     FPSController.executionID = requestAnimationFrame(FPSController.startGame)
@@ -51,7 +57,8 @@ export default class FPSController {
   }
 
   static stopGame() {
-    if (typeof this.executionID != 'number') return;
+    if (this.executionID == null) return;
+    FPSController._gameIsRunning = false
     cancelAnimationFrame(this.executionID)
     this.executionID = null
     this.lastRegisteredTimeAfterSecond = 0
