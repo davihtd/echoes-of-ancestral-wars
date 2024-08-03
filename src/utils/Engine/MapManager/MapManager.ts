@@ -21,12 +21,13 @@ export default class MapManager extends Element<'div'> {
     super('div', $mapContainer)
 
     this.element.style.position = 'fixed'
+    
+    const mapPosition = new Position(this.element)
+    this.camera = new Camera(mapPosition)
+    
     this.zoom = 2.5
 
     this.data = new MapDataLoader(mapDataPath, map => this.#loadMap(map))
-
-    const mapPosition = new Position(this.element)
-    this.camera = new Camera(mapPosition)
   }
 
   get zoom() {
