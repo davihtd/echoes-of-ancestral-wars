@@ -1,42 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import UI from "../components/UI.astro";
+import Map from "../components/Map.astro";
 ---
-
-<script>
-	import FPSController, { getDebouncedFn } from "../utils/Engine/FPSController";
-	import { $ } from "../utils/dom-selector";
-
-	const $fps = $<HTMLDivElement>("#fps");
-
-	$<HTMLButtonElement>("#start-game-btn").addEventListener("click", () => {
-		FPSController.startGame();
-	});
-
-	$<HTMLButtonElement>("#stop-game-btn").addEventListener("click", () => {
-		FPSController.stopGame();
-		$fps.innerText = "FPS: 0";
-	});
-
-	FPSController.addEvent(() => {
-		$fps.innerText = `FPS: ${FPSController.FPS}`;
-	});
-
-	const callback = getDebouncedFn(() => {
-		console.log("Presionando F");
-	});
-	document.body.addEventListener("keydown", (e) => {
-		console.log(e.key)
-		if (e.key != "f") return;
-		callback();
-	});
-</script>
 
 <Layout title="Echoes of Ancestral Wars">
 	<main>
-		<div id="map"></div>
-		<div id="fps">FPS: 0</div>
-		<button id="start-game-btn">Iniciar juego</button>
-		<button id="stop-game-btn">Finalizar juego</button>
+		<UI />
+		<Map/>
 	</main>
 </Layout>
 
@@ -49,12 +20,5 @@ import Layout from "../layouts/Layout.astro";
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
-	}
-
-	#fps {
-		position: fixed;
-
-		top: 30px;
-		right: 30px;
 	}
 </style>
