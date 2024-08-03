@@ -12,11 +12,20 @@ export default class MapManager extends Element<'div'> {
   private layers: CanvasLayers | null = null
   readonly data: MapDataLoader;
 
+  get zoom() {
+    return Number(this.element.style.scale)
+  }
+
+  set zoom(value: number) {
+    this.element.style.scale = value.toString()
+  }
+
   constructor(mapContainerID: string, mapDataPath: string) {
     const $mapContainer = Element.get('#' + mapContainerID)
     super('div', $mapContainer)
 
     this.element.style.position = 'fixed'
+    this.zoom = 2.5
 
     this.data = new MapDataLoader(mapDataPath, map => {
 
