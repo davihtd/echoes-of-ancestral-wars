@@ -1,0 +1,55 @@
+<script>
+	import Element from "../utils/Element";
+	import FPSController from "../utils/Engine/FPSController";
+
+	const $fps = Element.get<HTMLDivElement>("#fps");
+	const $startGameBtn = Element.get<HTMLButtonElement>("#start-game-btn");
+	const $stopGameBtn = Element.get<HTMLButtonElement>("#stop-game-btn");
+
+	const startGame = () => {
+    if (!FPSController.gameIsRunning) {
+      FPSController.startGame()
+    }
+  };
+
+	const stopGame = () => {
+		FPSController.stopGame();
+		$fps.innerText = "FPS: 0";
+	};
+
+	const updateFPSView = () => {
+		$fps.innerText = `FPS: ${FPSController.FPS}`;
+	};
+
+	$startGameBtn.addEventListener("click", startGame);
+	$stopGameBtn.addEventListener("click", stopGame);
+
+	setInterval(updateFPSView, 1000);
+</script>
+
+<>
+  <div id="game-buttons" class="ui">
+    <button id="start-game-btn">Iniciar juego</button>
+    <button id="stop-game-btn">Finalizar juego</button>
+  </div>
+  <div id="fps" class="ui">FPS: 0</div>
+</>
+
+<style scoped>
+	.ui {
+		position: fixed;
+		z-index: 100;
+	}
+
+	#fps {
+		position: fixed;
+
+		top: 30px;
+		right: 30px;
+	}
+
+	#game-buttons {
+		top: 30px;
+		left: 30px;
+	}
+</style>
