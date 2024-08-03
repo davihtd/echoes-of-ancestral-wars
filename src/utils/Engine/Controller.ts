@@ -1,4 +1,4 @@
-import type { BasicCallback } from '../../types/tiled/Helpers';
+import type { BasicCallback } from '../../types/helpers';
 import FPSController from './FPSController';
 
 class Controller {

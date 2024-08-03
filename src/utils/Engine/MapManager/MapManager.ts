@@ -1,9 +1,10 @@
 import Element from '../../Element';
 import Camera from './Camera';
-import Position from '../Position';
+import Position from '../GameObject/Position';
 import CanvasLayer from './CanvasLayer';
 import type Map from './Map';
 import MapDataLoader from './MapDataLoader';
+import GameObject from '../GameObject/GameObject';
 
 
 type CanvasLayers = {
@@ -11,38 +12,35 @@ type CanvasLayers = {
   foreground: CanvasLayer
 }
 
-export default class MapManager extends Element<'div'> {
+export default class MapManager extends GameObject<'div'> {
   private layers: CanvasLayers | null = null
-  readonly data: MapDataLoader;
   readonly camera: Camera;
 
   constructor(mapContainerID: string, mapDataPath: string) {
     const $mapContainer = Element.get('#' + mapContainerID)
     super('div', $mapContainer)
+    
+    this._element.style.position = 'fixed'
 
-    this.element.style.position = 'fixed'
-    
-    const mapPosition = new Position(this.element)
-    this.camera = new Camera(mapPosition)
-    
+    this.camera = new Camera(this.position)
     this.zoom = 2.5
 
-    this.data = new MapDataLoader(mapDataPath, map => this.#loadMap(map))
+    new MapDataLoader(mapDataPath, map => this.#loadMap(map))
   }
 
   get zoom() {
-    return Number(this.element.style.scale)
+    return Number(this._element.style.scale)
   }
 
   set zoom(value: number) {
-    this.element.style.scale = value.toString()
+    this._element.style.scale = value.toString()
     this.camera.zoom = value
   }
 
   #loadMap(map: Map) {
     this.layers = {
-      background: new CanvasLayer(this.element, 0, map),
-      foreground: new CanvasLayer(this.element, 2, map),
+      background: new CanvasLayer(this._element, 0, map),
+      foreground: new CanvasLayer(this._element, 2, map),
     }
 
     map.data.layers.forEach(layer => {

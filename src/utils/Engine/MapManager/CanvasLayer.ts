@@ -1,4 +1,4 @@
-import type { Tiles } from '../../../types/tiled/Helpers';
+import type { Tiles } from '../../../types/tiled/helpers';
 import type { MapDataLayer, ObjectElement } from '../../../types/tiled/Map';
 import Element from '../../Element';
 import type Map from './Map';
@@ -13,12 +13,12 @@ export default class CanvasLayer extends Element<'canvas'> {
 
     this.map = map
 
-    this.element.style.position = 'absolute';
-    this.element.style.zIndex = `${level}`;
-    this.element.width = map.data.pxWidth
-    this.element.height = map.data.pxHeight
+    this._element.style.position = 'absolute';
+    this._element.style.zIndex = `${level}`;
+    this._element.width = map.data.pxWidth
+    this._element.height = map.data.pxHeight
 
-    const ctx = this.element.getContext('2d');
+    const ctx = this._element.getContext('2d');
 
     if (!ctx) throw new Error("Can't create 2D context");
 

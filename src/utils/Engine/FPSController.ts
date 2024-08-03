@@ -1,4 +1,4 @@
-import type { BasicCallback } from '../../types/tiled/Helpers';
+import type { BasicCallback } from '../../types/helpers';
 
 export default class FPSController {
   private static executionID: null | number = null;

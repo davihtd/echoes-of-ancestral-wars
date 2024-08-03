@@ -1,4 +1,4 @@
-import type { Coordinates, Tiles } from '../../../types/tiled/Helpers';
+import type { Coordinates, Tiles } from '../../../types/tiled/helpers';
 import type { MapData, Tileset } from '../../../types/tiled/Map';
 import type { Tileset as LoadedTileset } from '../../../types/tiled/Tileset';
 import TilesetSelector from './TilesetSelector';

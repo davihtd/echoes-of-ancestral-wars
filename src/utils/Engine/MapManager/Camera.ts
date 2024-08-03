@@ -1,4 +1,4 @@
-import type Position from '../Position';
+import type Position from '../GameObject/Position';
 
 
 export default class Camera {

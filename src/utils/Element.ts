@@ -1,9 +1,9 @@
 export default class Element<Tag extends keyof HTMLElementTagNameMap> {
-  readonly element: HTMLElementTagNameMap[Tag];
+  readonly _element: HTMLElementTagNameMap[Tag];
 
   constructor(tagName: Tag, parent: HTMLElement) {
-    this.element = document.createElement<Tag>(tagName)
-    parent.appendChild(this.element)
+    this._element = document.createElement<Tag>(tagName)
+    parent.appendChild(this._element)
   }
 
   /**

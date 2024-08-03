@@ -1,5 +1,3 @@
-export type BasicCallback = () => void
-
 export type Tiles = number
 
 export type Coordinates = [x: number, y: number]

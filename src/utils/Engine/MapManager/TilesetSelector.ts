@@ -1,4 +1,4 @@
-import type { TileCoordinates, TileDimensions } from '../../../types/tiled/Helpers';
+import type { TileCoordinates, TileDimensions } from '../../../types/tiled/helpers';
 import type { Tileset } from '../../../types/tiled/Tileset';
 
 
