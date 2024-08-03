@@ -69,14 +69,3 @@ export default class FPSController {
     this.events.push(event)
   }
 }
-
-
-/** @deprecated Mejor usa FPSController.delta */
-export function getDebouncedFn(fn: BasicCallback): BasicCallback {
-  let prevFrame: null | number = null;
-  return () => {
-    if (prevFrame == FPSController.currentFrame) return;
-    prevFrame = FPSController.currentFrame;
-    fn()
-  }
-}
