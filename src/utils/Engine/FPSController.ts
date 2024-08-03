@@ -1,11 +1,10 @@
-type Callback = () => void
-
+import type { BasicCallback } from '../../types/tiled/Helpers';
 
 export default class FPSController {
   private static executionID: null | number = null;
   private static lastRegisteredTimeAfterSecond = 0;
   private static lastRegisteredTime = 0;
-  private static events: Callback[] = [];
+  private static events: BasicCallback[] = [];
 
   private static _gameIsRunning = false;
   public static get gameIsRunning() {
@@ -66,14 +65,14 @@ export default class FPSController {
     this._currentFrame = 0
   }
 
-  static addEvent(event: Callback) {
+  static addEvent(event: BasicCallback) {
     this.events.push(event)
   }
 }
 
 
 /** @deprecated Mejor usa FPSController.delta */
-export function getDebouncedFn(fn: Callback): Callback {
+export function getDebouncedFn(fn: BasicCallback): BasicCallback {
   let prevFrame: null | number = null;
   return () => {
     if (prevFrame == FPSController.currentFrame) return;
