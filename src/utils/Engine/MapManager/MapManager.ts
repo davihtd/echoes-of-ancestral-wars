@@ -12,12 +12,11 @@ export default class MapManager extends Element<'div'> {
   private layers: CanvasLayers | null = null
   readonly data: MapDataLoader;
 
-  constructor($mapContainer: HTMLElement, mapDataPath: string) {
+  constructor(mapContainerID: string, mapDataPath: string) {
+    const $mapContainer = Element.get('#' + mapContainerID)
     super('div', $mapContainer)
 
     this.element.style.position = 'fixed'
-
-
 
     this.data = new MapDataLoader(mapDataPath, map => {
 
