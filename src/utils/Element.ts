@@ -15,7 +15,7 @@ export default class Element<Tag extends keyof HTMLElementTagNameMap> {
    * @param context
    * @returns  HTMLElement
    */
-  get<T extends HTMLElement>(
+  static get<T extends HTMLElement>(
     selector: string,
     context: Document | HTMLElement = document
   ) {
@@ -32,7 +32,7 @@ export default class Element<Tag extends keyof HTMLElementTagNameMap> {
    * @param context
    * @returns  NodeList
    */
-  getAll<T extends HTMLElement>(
+  static getAll<T extends HTMLElement>(
     selector: string,
     context: Document | HTMLElement = document
   ) {
