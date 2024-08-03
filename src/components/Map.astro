@@ -1,0 +1,36 @@
+<script>
+  import FPSController from "../utils/Engine/FPSController";
+  import MapManager from "../utils/Engine/MapManager/MapManager";
+  import Controller from "../utils/Engine/Controller";
+
+  const map = new MapManager("map-container", "/assets/map.json");
+
+  const player = {
+    velocity: 40
+  }
+
+  Controller.setKeyDownEventListener('Shift', () => {
+    player.velocity = 80
+  })
+  Controller.setKeyUpEventListener('Shift', () => {
+    player.velocity = 40
+  })
+
+  Controller.setKeyDownEventListener("s", () => {
+    map.camera.moveBottom(player.velocity * FPSController.delta);
+  });
+
+  Controller.setKeyDownEventListener("w", () => {
+    map.camera.moveTop(player.velocity * FPSController.delta);
+  });
+
+  Controller.setKeyDownEventListener("d", () => {
+    map.camera.moveRight(player.velocity * FPSController.delta);
+  });
+
+  Controller.setKeyDownEventListener("a", () => {
+    map.camera.moveLeft(player.velocity * FPSController.delta);
+  });
+</script>
+
+<div id="map-container"></div>

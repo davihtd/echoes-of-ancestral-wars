@@ -1,4 +1,4 @@
-/**
+/**@deprecated
  * Get element from dom by selector string
  * @example
  * 	const elementClass = $('.my-class')
@@ -16,7 +16,7 @@ export default function $<T extends HTMLElement>(
 	return $element
 }
 
-/**
+/**@deprecated
  * Get elements from dom by selector string
  * @example
  * 	const elements = $$('.my-class')
