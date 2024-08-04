@@ -11,7 +11,7 @@ interface Options {
   height?: number
 }
 
-export default class GameObject<Tag extends keyof HTMLElementTagNameMap> extends Element<Tag> {
+export default class GameObject<Tag extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap> extends Element<Tag> {
   readonly position: Position;
   readonly dimensions: Dimensions;
 
