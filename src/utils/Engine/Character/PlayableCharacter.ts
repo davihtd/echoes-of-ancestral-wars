@@ -1,5 +1,6 @@
-import FPSController from '../FPSController';
+import type { Vector2 } from '../../../types/helpers';
 import Character, { type CharacterStats } from './Character';
+import Move from './Move';
 
 
 export type PlayableCharacterStats = CharacterStats & {
@@ -10,38 +11,22 @@ export type PlayableCharacterStats = CharacterStats & {
 export default class PlayableCharacter extends Character {
   walkingSpeed: number;
   runningSpeed: number;
+  move: Move;
 
-  #currentSpeed: number;
-
-  constructor(layer: HTMLElement, stats: PlayableCharacterStats) {
-    super(layer, stats)
+  constructor(layer: HTMLElement, position: Vector2, stats: PlayableCharacterStats) {
+    super(layer, position, stats)
 
     this.walkingSpeed = stats.walkingSpeed
     this.runningSpeed = stats.runningSpeed
-    this.#currentSpeed = this.walkingSpeed
-  }
 
-  moveRight() {
-    this.position.x += this.#currentSpeed * FPSController.delta
-  }
-
-  moveLeft() {
-    this.position.x -= this.#currentSpeed * FPSController.delta
-  }
-
-  moveTop() {
-    this.position.y -= this.#currentSpeed * FPSController.delta
-  }
-
-  moveBottom() {
-    this.position.y += this.#currentSpeed * FPSController.delta
+    this.move = new Move(this.position, this.walkingSpeed)
   }
 
   startRunning() {
-    this.#currentSpeed = this.runningSpeed
+    this.move.speed = this.runningSpeed
   }
 
   stopRunning() {
-    this.#currentSpeed = this.walkingSpeed
+    this.move.speed = this.walkingSpeed
   }
 }

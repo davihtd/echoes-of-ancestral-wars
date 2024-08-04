@@ -4,16 +4,16 @@ import Controller from '../../Engine/Controller';
 
 export default function setCharacterControls(character: PlayableCharacter) {
     // derecha
-    Controller.setKeyDownEventListener('d', () => character.moveRight());
+    Controller.setKeyDownEventListener('d', () => character.move.right());
 
     // izquierda
-    Controller.setKeyDownEventListener('a', () => character.moveLeft());
+    Controller.setKeyDownEventListener('a', () => character.move.left());
 
     // arriba
-    Controller.setKeyDownEventListener('w', () => character.moveTop());
+    Controller.setKeyDownEventListener('w', () => character.move.top());
 
     // abajo
-    Controller.setKeyDownEventListener('s', () => character.moveBottom());
+    Controller.setKeyDownEventListener('s', () => character.move.bottom());
 
     // correr
     Controller.setKeyDownEventListener('Shift', () => character.startRunning());
