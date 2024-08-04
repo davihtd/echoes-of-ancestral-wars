@@ -1,12 +1,16 @@
 <script>
   import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
-import { Layers } from '../utils/Engine/constants';
   import MapManager from "../utils/Engine/MapManager/MapManager";
   import setCharacterControls from "../utils/game/controls/character";
 
   const map = new MapManager("map-container", "/assets/map.json");
 
-  const character = new PlayableCharacter(map._element, {
+  const character = new PlayableCharacter(map._element,
+  {
+    x: 90,
+    y: 140
+  }, 
+  {
     health: 100,
     strength: 100,
     intelligence: 100,
@@ -14,9 +18,11 @@ import { Layers } from '../utils/Engine/constants';
     runningSpeed: 80,
   });
 
-  character.setDebugMode(true, 'personaje')
+  character.setDebugMode(true, "personaje");
 
   setCharacterControls(character);
+
+  map.camera.follow(character);
 </script>
 
 <div id="map-container"></div>
