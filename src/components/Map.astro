@@ -1,36 +1,22 @@
 <script>
-  import FPSController from "../utils/Engine/FPSController";
+  import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
+import { Layers } from '../utils/Engine/constants';
   import MapManager from "../utils/Engine/MapManager/MapManager";
-  import Controller from "../utils/Engine/Controller";
+  import setCharacterControls from "../utils/game/controls/character";
 
   const map = new MapManager("map-container", "/assets/map.json");
 
-  const player = {
-    velocity: 40
-  }
-
-  Controller.setKeyDownEventListener('Shift', () => {
-    player.velocity = 80
-  })
-  Controller.setKeyUpEventListener('Shift', () => {
-    player.velocity = 40
-  })
-
-  Controller.setKeyDownEventListener("s", () => {
-    map.camera.moveBottom(player.velocity * FPSController.delta);
+  const character = new PlayableCharacter(map._element, {
+    health: 100,
+    strength: 100,
+    intelligence: 100,
+    walkingSpeed: 40,
+    runningSpeed: 80,
   });
 
-  Controller.setKeyDownEventListener("w", () => {
-    map.camera.moveTop(player.velocity * FPSController.delta);
-  });
+  character.setDebugMode(true, 'personaje')
 
-  Controller.setKeyDownEventListener("d", () => {
-    map.camera.moveRight(player.velocity * FPSController.delta);
-  });
-
-  Controller.setKeyDownEventListener("a", () => {
-    map.camera.moveLeft(player.velocity * FPSController.delta);
-  });
+  setCharacterControls(character);
 </script>
 
 <div id="map-container"></div>
