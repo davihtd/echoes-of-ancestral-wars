@@ -5,6 +5,7 @@ import CanvasLayer from './CanvasLayer';
 import type Map from './Map';
 import MapDataLoader from './MapDataLoader';
 import GameObject from '../GameObject/GameObject';
+import { Layers } from '../constants';
 
 
 type CanvasLayers = {
@@ -39,8 +40,8 @@ export default class MapManager extends GameObject<'div'> {
 
   #loadMap(map: Map) {
     this.layers = {
-      background: new CanvasLayer(this._element, 0, map),
-      foreground: new CanvasLayer(this._element, 2, map),
+      background: new CanvasLayer(this._element, Layers.BACKGROUND, map),
+      foreground: new CanvasLayer(this._element, Layers.FOREGROUND, map),
     }
 
     map.data.layers.forEach(layer => {
