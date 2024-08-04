@@ -34,6 +34,18 @@ export default class GameObject<Tag extends keyof HTMLElementTagNameMap> extends
   public set rotation(value) {
     this._element.style.rotate = `${value}deg`
   }
+
+  setDebugMode(active: boolean, objectName: string) {
+    if (active) {
+      this._element.style.border = '1px solid red'
+      this._element.style.fontSize = '.4rem'
+      this._element.innerText = objectName
+    } else {
+      this._element.style.border = ''
+      this._element.style.fontSize = ''
+      this._element.innerText = ''
+    }
+  }
 }
 
 
