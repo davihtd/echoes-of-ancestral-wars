@@ -1,3 +1,4 @@
+import type { Vector2 } from '../../../types/helpers'
 import { Layers } from '../constants'
 import GameObject from '../GameObject/GameObject'
 
@@ -12,7 +13,7 @@ export default class Character extends GameObject<'div'> {
     strength: number
     intelligence: number
 
-    constructor(layer: HTMLElement, stats: CharacterStats) {
+    constructor(layer: HTMLElement, position: Vector2, stats: CharacterStats) {
         super('div', layer)
 
         this._element.style.zIndex = Layers.CHARACTER.toString();
@@ -20,6 +21,9 @@ export default class Character extends GameObject<'div'> {
         /**@todo obtener las dimensiones del mapa actual */
         this.dimensions.width = 16;
         this.dimensions.height = 16;
+
+        this.position.x = position.x
+        this.position.y = position.y
 
         this.health = stats.health
         this.strength = stats.strength
