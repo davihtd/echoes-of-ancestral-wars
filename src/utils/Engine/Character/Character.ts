@@ -12,8 +12,7 @@ export default class Character extends GameObject<'div'> {
     intelligence: number
 
     constructor(layer: HTMLElement, stats: CharacterStats) {
-        super('div', layer, { width: 10, height: 20 })
-        this._element.style.backgroundColor = 'black'
+        super('div', layer)
 
         this.health = stats.health
         this.strength = stats.strength

@@ -1,6 +1,7 @@
 import FPSController from '../FPSController';
 import Character, { type CharacterStats } from './Character';
 
+
 export type PlayableCharacterStats = CharacterStats & {
   walkingSpeed: number
   runningSpeed: number
@@ -29,11 +30,11 @@ export default class PlayableCharacter extends Character {
   }
 
   moveTop() {
-    this.position.y += this.#currentSpeed * FPSController.delta
+    this.position.y -= this.#currentSpeed * FPSController.delta
   }
 
   moveBottom() {
-    this.position.y -= this.#currentSpeed * FPSController.delta
+    this.position.y += this.#currentSpeed * FPSController.delta
   }
 
   startRunning() {
