@@ -14,4 +14,10 @@ export default function setCharacterControls(character: PlayableCharacter) {
 
     // abajo
     Controller.setKeyDownEventListener('s', () => character.moveBottom());
+
+    // correr
+    Controller.setKeyDownEventListener('Shift', () => character.startRunning());
+
+    // dejar de correr
+    Controller.setKeyUpEventListener('Shift', () => character.stopRunning());
 }
