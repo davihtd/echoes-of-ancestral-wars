@@ -4,7 +4,7 @@ import FPSController from './FPSController';
 class Controller {
   #activeKeys: Set<string>;
   /**Donde la clave es un teclado y basic callback un listener */
-  #events: Record<string, BasicCallback> = {}
+  #listeners: Record<string, BasicCallback> = {}
 
   constructor () {
     this.#activeKeys = new Set()
@@ -17,11 +17,11 @@ class Controller {
       this.#activeKeys.delete(e.key.toLowerCase())
     })
 
-    FPSController.addEvent(() => this.#triggerListeners())
+    FPSController.addEventListener(() => this.#triggerListeners())
   }
 
   setKeyDownEventListener(key: string, listener: BasicCallback) {
-    this.#events[key.toLowerCase()] = listener
+    this.#listeners[key.toLowerCase()] = listener
   }
 
   setKeyUpEventListener(key: string, listener: BasicCallback) {
@@ -33,7 +33,7 @@ class Controller {
 
   #triggerListeners() {
     this.#activeKeys.forEach(key => {
-      const listener = this.#events[key]
+      const listener = this.#listeners[key]
 
       if (!listener) return;
       listener()
