@@ -1,6 +1,7 @@
-import type { TileCoordinates, TileDimensions } from '../../../types/tiled/helpers';
-import type { Tileset } from '../../../types/tiled/Tileset';
-
+import type { Object, Tileset } from "../../../types/tiled/Tileset";
+import CollisionBox from "./Collision";
+import Point from "../Utils/Point";
+import Dimensions from "../Utils/Dimensions";
 
 export default class TilesetSelector {
   readonly data: Tileset;
@@ -8,23 +9,46 @@ export default class TilesetSelector {
   readonly img: HTMLImageElement;
 
   constructor(tileset: Tileset, tilesetID: number) {
-    this.data = tileset
-    this.tilesetGlobalID = tilesetID
-    this.img = new Image()
-    this.img.src = this.data.image
+    this.data = tileset;
+    this.tilesetGlobalID = tilesetID;
+    this.img = new Image();
+    this.img.src = this.data.image;
   }
 
-  get tileDimensions(): TileDimensions {
-    return [this.data.tilewidth, this.data.tileheight]
+  /**El tamaño de cada tile en el tileset */
+  get tileDimensions(): Dimensions {
+    return new Dimensions([this.data.tilewidth, this.data.tileheight]);
   }
 
-  getTileCoordinates(globalID: number): TileCoordinates {
-    if (this.data.tilecount == 1) return [0, 0]
-    const 
-      localID = globalID - this.tilesetGlobalID,
-      x = (localID % this.data.columns) * this.data.tilewidth,
-      y = Math.floor(localID / this.data.columns) * this.data.tileheight
+  private getLocalID(globalID: number): number {
+    return globalID - this.tilesetGlobalID;
+  }
 
-    return [x, y]
+  /**@returns las coordenadas X e Y en pixeles en el contexto del tileset */
+  private getTileCoordinatesFromLocalID(localID: number) {
+    const x = (localID % this.data.columns) * this.data.tilewidth;
+    const y = Math.floor(localID / this.data.columns) * this.data.tileheight;
+
+    return new Point([x, y]);
+  }
+
+  /**@returns las coordenadas X e Y en pixeles en el contexto del tileset */
+  getTileCoordinates(globalID: number): Point {
+    if (this.data.tilecount == 1) return new Point([0, 0]);
+    const localID = this.getLocalID(globalID);
+
+    return this.getTileCoordinatesFromLocalID(localID);
+  }
+
+  /**@returns las colisiones en crudo */
+  getTileRawCollisions(globalID: number): Object[] | null {
+    const tiles = this.data.tiles;
+    if (!tiles) return null;
+
+    const localID = this.getLocalID(globalID);
+    const tile = tiles.find((tile) => tile.id == localID);
+    if (!tile) return []
+
+    return tile.objectgroup.objects;
   }
 }

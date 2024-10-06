@@ -34,7 +34,8 @@ export default class CanvasLayer extends Element<'canvas'> {
   }
 
   private drawTileLayer(layer: ObjectElement) {
-    if (!layer.data) console.warn('No element data found')
+    if (!layer.data) console.warn('No layer data found')
+    
     layer.data?.forEach((globalID, tileIndex) => {
       if (!globalID) return;
       this.drawTile(globalID, layer.width, tileIndex)
@@ -48,10 +49,10 @@ export default class CanvasLayer extends Element<'canvas'> {
 
     this.context.drawImage(
       tileset.img,
-      ...inTileCoordinates,
-      ...tileset.tileDimensions,
-      ...inMapCoordinates,
-      ...tileset.tileDimensions
+      ...inTileCoordinates.coordinates,
+      ...tileset.tileDimensions.asArray,
+      ...inMapCoordinates.coordinates,
+      ...tileset.tileDimensions.asArray
     )
   }
 }

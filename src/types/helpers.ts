@@ -1,3 +1,6 @@
-export type BasicCallback = () => void
+export type BasicCallback = () => void;
 
-export type Vector2 = { x: number, y: number }
+export enum Axis {
+  X = "x",
+  Y = "y",
+}

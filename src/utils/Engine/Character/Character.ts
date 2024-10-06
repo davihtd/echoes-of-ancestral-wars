@@ -1,6 +1,6 @@
-import type { Vector2 } from '../../../types/helpers'
 import { Layers } from '../constants'
 import GameObject from '../GameObject/GameObject'
+import type { CoordinatesObject } from '../Utils/Point'
 
 export type CharacterStats = {
     health: number
@@ -13,7 +13,7 @@ export default class Character extends GameObject<'div'> {
     strength: number
     intelligence: number
 
-    constructor(layer: HTMLElement, position: Vector2, stats: CharacterStats) {
+    constructor(layer: HTMLElement, position: CoordinatesObject, stats: CharacterStats) {
         super('div', layer)
 
         this._element.style.zIndex = Layers.CHARACTER.toString();

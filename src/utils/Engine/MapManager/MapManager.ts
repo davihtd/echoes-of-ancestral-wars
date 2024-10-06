@@ -1,64 +1,63 @@
-import Element from '../../Element';
-import Camera from './Camera';
-import Position from '../GameObject/Position';
-import CanvasLayer from './CanvasLayer';
-import type Map from './Map';
-import MapDataLoader from './MapDataLoader';
-import GameObject from '../GameObject/GameObject';
-import { Layers } from '../constants';
-
+import Element from "../../Element";
+import Camera from "./Camera";
+import Position from "../GameObject/Position";
+import CanvasLayer from "./CanvasLayer";
+import type Map from "./Map";
+import MapDataLoader from "./MapDataLoader";
+import GameObject from "../GameObject/GameObject";
+import { Layers } from "../constants";
+import MapCollisions from "./MapCollisions";
 
 type CanvasLayers = {
-  background: CanvasLayer
-  foreground: CanvasLayer
-}
+  background: CanvasLayer;
+  foreground: CanvasLayer;
+};
 
-export default class MapManager extends GameObject<'div'> {
-  private layers: CanvasLayers | null = null
+export default class MapManager extends GameObject<"div"> {
+  private layers: CanvasLayers;
+  readonly collisions: MapCollisions;
   readonly camera: Camera;
 
-  constructor(mapContainerID: string, mapDataPath: string) {
-    const $mapContainer = Element.get('#' + mapContainerID)
-    super('div', $mapContainer)
-    
-    this._element.style.position = 'fixed'
+  constructor(mapContainerID: string, map: Map) {
+    const $mapContainer = Element.get("#" + mapContainerID);
+    super("div", $mapContainer);
 
-    this.camera = new Camera(this.position)
-    this.zoom = 2.5
+    this._element.style.position = "fixed";
 
-    new MapDataLoader(mapDataPath, map => this.#loadMap(map))
-  }
+    this.camera = new Camera(this.position);
+    this.zoom = 2.5;
 
-  get zoom() {
-    return Number(this._element.style.scale)
-  }
-
-  set zoom(value: number) {
-    this._element.style.scale = value.toString()
-    this.camera.zoom = value
-  }
-
-  #loadMap(map: Map) {
     this.layers = {
       background: new CanvasLayer(this._element, Layers.BACKGROUND, map),
       foreground: new CanvasLayer(this._element, Layers.FOREGROUND, map),
-    }
+    };
 
-    map.data.layers.forEach(layer => {
-      console.log(layer.name)
-      switch (layer.name) {
-        case 'background':
-          this.layers?.background.drawTileLayerGroup(layer)
-          break;
-        case 'foreground':
-          this.layers?.foreground.drawTileLayerGroup(layer)
-          break;
-        case 'GameObjects':
-          // agregar a un ObjectLayer y guardar coordenadas en tiles?
-          break;
-        default:
-          console.warn(`Layer "${layer.name}" is not recognized`)
+    this.collisions = new MapCollisions(map, this._element);
+
+    this.#prepareMap(map);
+  }
+
+  get zoom() {
+    return Number(this._element.style.scale);
+  }
+
+  set zoom(value: number) {
+    this._element.style.scale = value.toString();
+    this.camera.zoom = value;
+  }
+
+  #prepareMap(map: Map) {
+    map.data.layers.forEach((layer) => {
+      console.info(layer.name);
+
+      if (["background", "foreground"].includes(layer.name)) {
+        this.layers?.background.drawTileLayerGroup(layer);
+        this.collisions.registerLayerGroupCollisions(layer);
+      } else if (layer.name == "GameObjects") {
+        // agregar a un ObjectLayer y guardar coordenadas en tiles?
+      } else {
+        console.warn(`Layer "${layer.name}" is not recognized`);
       }
-    })
+    });
   }
 }

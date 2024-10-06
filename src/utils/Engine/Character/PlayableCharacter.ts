@@ -1,4 +1,4 @@
-import type { Vector2 } from '../../../types/helpers';
+import type { CoordinatesObject } from '../Utils/Point';
 import Character, { type CharacterStats } from './Character';
 import Move from './Move';
 
@@ -13,7 +13,7 @@ export default class PlayableCharacter extends Character {
   runningSpeed: number;
   move: Move;
 
-  constructor(layer: HTMLElement, position: Vector2, stats: PlayableCharacterStats) {
+  constructor(layer: HTMLElement, position: CoordinatesObject, stats: PlayableCharacterStats) {
     super(layer, position, stats)
 
     this.walkingSpeed = stats.walkingSpeed

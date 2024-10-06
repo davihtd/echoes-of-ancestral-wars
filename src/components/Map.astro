@@ -1,11 +1,13 @@
 <script>
   import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
   import MapManager from "../utils/Engine/MapManager/MapManager";
+  import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
   import setCharacterControls from "../utils/game/controls/character";
 
-  const map = new MapManager("map-container", "/assets/map.json");
+  const map = await MapDataLoader.getMap("map")
+  const mapManager = new MapManager("map-container", map);
 
-  const character = new PlayableCharacter(map._element,
+  const character = new PlayableCharacter(mapManager._element,
   {
     x: 90,
     y: 140
@@ -22,7 +24,7 @@
 
   setCharacterControls(character);
 
-  map.camera.follow(character);
+  mapManager.camera.follow(character);
 </script>
 
 <div id="map-container"></div>
