@@ -1,6 +1,7 @@
 import { Axis } from "../../../types/helpers";
 import type { Tiles } from "../../../types/tiled/helpers";
 import type { MapDataLayer, ObjectElement } from "../../../types/tiled/Map";
+import { Config } from '../constants';
 import GameObject from "../GameObject/GameObject";
 import type { CoordinatesTuple } from "../Utils/Point";
 import CollisionBox from "./Collision";
@@ -12,8 +13,8 @@ export default class MapCollisions {
   collisionZones: Record<string, CollisionBox[] | null> = {};
 
   mapElement: HTMLElement;
-  static SHOW_COLLISIONS = true;
-  static SHOW_COLLISION_ZONES = true;
+  static SHOW_COLLISIONS = Config.SHOW_COLLISIONS;
+  static SHOW_COLLISION_ZONES = Config.SHOW_COLLISION_ZONES;
 
   constructor(map: Map, mapElement: HTMLElement) {
     this.map = map;
