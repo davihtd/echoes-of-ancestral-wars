@@ -4,23 +4,25 @@
   import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
   import setCharacterControls from "../utils/game/controls/character";
   import { Config } from "../utils/Engine/constants";
+  import Point from "../utils/Engine/Utils/Point";
 
   const map = await MapDataLoader.getMap("map");
   const mapManager = new MapManager("map-container", map);
 
   const character = new PlayableCharacter(
     mapManager._element,
-    {
+    new Point({
       x: 90,
       y: 140,
-    },
+    }),
     {
       health: 100,
       strength: 100,
       intelligence: 100,
       walkingSpeed: 40,
       runningSpeed: 80,
-    }
+    },
+    mapManager.collisions
   );
 
   character.setDebugMode(Config.SHOW_PLAYER_COLLISION, "Player");

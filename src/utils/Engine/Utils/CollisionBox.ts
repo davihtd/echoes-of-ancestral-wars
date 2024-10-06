@@ -1,24 +1,16 @@
 import { Axis } from "../../../types/helpers";
 import type { Object } from "../../../types/tiled/Tileset";
-import Box from "../Utils/Box";
-import Point from "../Utils/Point";
+import Box from "./Box";
+import Point from "./Point";
 
 export default class CollisionBox extends Box {
-  constructor(
-    tileCoordinates: Point,
-    object: Pick<Object, "x" | "y" | "width" | "height">
-  ) {
-    const topLeftCorner = new Point({
-      x: tileCoordinates.x + object.x,
-      y: tileCoordinates.y + object.y,
-    });
-
+  constructor(position: Point, dimensions: Pick<Object, "width" | "height">) {
     const bottomRightCorner = Box.getBottomRightCornerFromDimensions(
-      topLeftCorner,
-      object
+      position,
+      dimensions
     );
 
-    super(topLeftCorner, bottomRightCorner);
+    super(position, bottomRightCorner);
   }
 
   private inRange(range: [number, number], target: number) {
@@ -42,12 +34,12 @@ export default class CollisionBox extends Box {
   }
 
   /**Retorna verdadero si la caja esta colisionando con esta caja */
-  isCollidingCollision(collisions: CollisionBox) {
+  isCollidingCollision(collision: CollisionBox) {
     const colliding = {
-      topRight: this.isCollidingPoint(collisions.topRightCorner),
-      topLeft: this.isCollidingPoint(collisions.topLeftCorner),
-      bottomRight: this.isCollidingPoint(collisions.bottomRightCorner),
-      bottomLeft: this.isCollidingPoint(collisions.bottomLeftCorner),
+      topRight: this.isCollidingPoint(collision.topRightCorner),
+      topLeft: this.isCollidingPoint(collision.topLeftCorner),
+      bottomRight: this.isCollidingPoint(collision.bottomRightCorner),
+      bottomLeft: this.isCollidingPoint(collision.bottomLeftCorner),
     };
 
     // retorna verdadero si cualquier esquina esta colisionando

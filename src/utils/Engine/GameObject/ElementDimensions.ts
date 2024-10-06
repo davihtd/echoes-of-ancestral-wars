@@ -2,7 +2,7 @@ import getUnitAsNumber from '../utils';
 
 
 
-export default class Dimensions {
+export default class ElementDimensions {
   _element: HTMLElement;
 
   constructor (element: HTMLElement) {

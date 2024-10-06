@@ -1,5 +1,5 @@
 import type { Object, Tileset } from "../../../types/tiled/Tileset";
-import CollisionBox from "./Collision";
+import MapCollision from "./MapCollision";
 import Point from "../Utils/Point";
 import Dimensions from "../Utils/Dimensions";
 

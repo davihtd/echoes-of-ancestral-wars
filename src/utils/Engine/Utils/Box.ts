@@ -1,5 +1,5 @@
 import type { DimensionsObject } from "./Dimensions";
-import Point, { type CoordinatesObject } from "./Point";
+import Point from "./Point";
 
 export default class Box {
   topLeftCorner: Point;

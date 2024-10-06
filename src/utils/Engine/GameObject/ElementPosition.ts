@@ -1,8 +1,6 @@
 import getUnitAsNumber from '../utils';
 
-
-
-export default class Position {
+export default class ElementPosition {
   _element: HTMLElement;
 
   constructor (element: HTMLElement) {

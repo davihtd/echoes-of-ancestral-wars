@@ -1,6 +1,6 @@
 import Element from "../../Element";
 import Camera from "./Camera";
-import Position from "../GameObject/Position";
+import ElementPosition from "../GameObject/ElementPosition";
 import CanvasLayer from "./CanvasLayer";
 import type Map from "./Map";
 import MapDataLoader from "./MapDataLoader";

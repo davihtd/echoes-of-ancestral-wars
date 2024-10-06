@@ -1,23 +1,25 @@
 import { Axis } from "../../../types/helpers";
 import type { Tiles } from "../../../types/tiled/helpers";
 import type { MapDataLayer, ObjectElement } from "../../../types/tiled/Map";
-import { Config } from '../constants';
+import { Config } from "../constants";
 import GameObject from "../GameObject/GameObject";
 import type { CoordinatesTuple } from "../Utils/Point";
-import CollisionBox from "./Collision";
+import MapCollision from "./MapCollision";
 import type Map from "./Map";
+import type Point from "../Utils/Point";
+import type CollisionBox from "../Utils/CollisionBox";
 
 export default class MapCollisions {
-  map: Map;
-  zoneSize: number;
-  collisionZones: Record<string, CollisionBox[] | null> = {};
+  #map: Map;
+  readonly zoneSize: number;
+  readonly collisionZones: Record<string, MapCollision[] | null> = {};
 
-  mapElement: HTMLElement;
+  private mapElement: HTMLElement;
   static SHOW_COLLISIONS = Config.SHOW_COLLISIONS;
   static SHOW_COLLISION_ZONES = Config.SHOW_COLLISION_ZONES;
 
   constructor(map: Map, mapElement: HTMLElement) {
-    this.map = map;
+    this.#map = map;
     this.zoneSize = map.data.tilewidth * 5;
 
     this.mapElement = mapElement;
@@ -45,18 +47,18 @@ export default class MapCollisions {
     layerWidth: Tiles,
     tileIndex: number
   ) {
-    const tileset = this.map.getTilesetSelector(globalID);
+    const tileset = this.#map.getTilesetSelector(globalID);
     const rawCollisions = tileset.getTileRawCollisions(globalID);
-    const tileCoordinates = this.map.getTileCoordinates(layerWidth, tileIndex);
+    const tileCoordinates = this.#map.getTileCoordinates(layerWidth, tileIndex);
 
     rawCollisions?.map((rawCollision) => {
-      const collision = new CollisionBox(tileCoordinates, rawCollision);
+      const collision = new MapCollision(tileCoordinates, rawCollision);
       this.registerCollision(collision);
     });
   }
 
-  private registerCollision(collision: CollisionBox) {
-    const zoneID = this.getZoneIdentifier(collision);
+  private registerCollision(collision: MapCollision) {
+    const zoneID = this.getZoneID(collision.topLeftCorner);
 
     if (MapCollisions.SHOW_COLLISION_ZONES && !this.collisionZones[zoneID]) {
       const coordinates = JSON.parse(zoneID) as CoordinatesTuple;
@@ -67,7 +69,7 @@ export default class MapCollisions {
         height: this.zoneSize,
       });
 
-      zone.setDebugMode(true, `Collision zone ${zoneID}`)
+      zone.setDebugMode(true, `Collision zone ${zoneID}`);
     }
 
     if (MapCollisions.SHOW_COLLISIONS) {
@@ -78,16 +80,16 @@ export default class MapCollisions {
         height: collision.bottomRightCorner.y - collision.topLeftCorner.y,
       });
 
-      collisionGO.setDebugMode(true, '')
+      collisionGO.setDebugMode(true, "");
     }
 
     this.collisionZones[zoneID] = this.collisionZones[zoneID] || [];
     this.collisionZones[zoneID].push(collision);
   }
 
-  getZoneIdentifier(collision: CollisionBox): string {
+  private getZoneID(position: Point): string {
     const getAxis = (axis: Axis) => {
-      return Math.floor(collision.topRightCorner[axis] / this.zoneSize);
+      return Math.floor(position[axis] / this.zoneSize);
     };
 
     const collisionCoordinates: CoordinatesTuple = [
@@ -96,5 +98,34 @@ export default class MapCollisions {
     ];
 
     return JSON.stringify(collisionCoordinates);
+  }
+
+  private getNearZonesIDs(collision: CollisionBox): string[] {
+    const zones: Record<string, boolean> = {};
+
+    const addZoneID = (corners: Point[]) => {
+      corners.forEach((corner) => {
+        const zoneID = this.getZoneID(corner);
+        zones[zoneID] = true;
+      });
+    };
+
+    addZoneID([
+      collision.topRightCorner,
+      collision.topLeftCorner,
+      collision.bottomRightCorner,
+      collision.bottomLeftCorner,
+    ]);
+
+    return Object.keys(zones);
+  }
+
+  getNearCollisions(collision: CollisionBox): MapCollision[] {
+    const nearZones = this.getNearZonesIDs(collision)
+    return nearZones.flatMap(zoneID => {
+      const collision = this.collisionZones[zoneID]
+      if (!collision) return []
+      return collision;
+    })
   }
 }

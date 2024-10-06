@@ -1,14 +1,14 @@
 import type PlayableCharacter from '../Character/PlayableCharacter';
 import FPSController from '../FPSController';
 import type GameObject from '../GameObject/GameObject';
-import type Position from '../GameObject/Position';
+import type ElementPosition from '../GameObject/ElementPosition';
 
 
 export default class Camera {
-  position: Position
+  position: ElementPosition
   zoom = 1
 
-  constructor(position: Position) {
+  constructor(position: ElementPosition) {
     this.position = position
   }
 

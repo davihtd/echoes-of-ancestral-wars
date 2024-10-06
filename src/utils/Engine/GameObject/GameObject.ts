@@ -1,7 +1,7 @@
 import Element from '../../Element';
 import getUnitAsNumber from '../utils';
-import Dimensions from './Dimensions';
-import Position from './Position';
+import ElementDimensions from './ElementDimensions';
+import ElementPosition from './ElementPosition';
 
 
 interface Options {
@@ -12,15 +12,15 @@ interface Options {
 }
 
 export default class GameObject<Tag extends keyof HTMLElementTagNameMap = keyof HTMLElementTagNameMap> extends Element<Tag> {
-  readonly position: Position;
-  readonly dimensions: Dimensions;
+  readonly position: ElementPosition;
+  readonly dimensions: ElementDimensions;
 
   constructor(tagName: Tag, parent: HTMLElement, options: Options = {}) {
     super(tagName, parent);
     this._element.style.position = 'absolute'
 
-    this.position = new Position(this._element)
-    this.dimensions = new Dimensions(this._element)
+    this.position = new ElementPosition(this._element)
+    this.dimensions = new ElementDimensions(this._element)
 
     if (options.x) this.position.x = options.x
     if (options.y) this.position.y = options.y

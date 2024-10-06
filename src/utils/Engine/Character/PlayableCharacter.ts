@@ -1,32 +1,42 @@
-import type { CoordinatesObject } from '../Utils/Point';
-import Character, { type CharacterStats } from './Character';
-import Move from './Move';
-
+import type MapCollisions from '../MapManager/MapCollisions';
+import type Point from "../Utils/Point";
+import Character, { type CharacterStats } from "./Character";
+import CharacterCollision from "./CharacterCollision";
+import Move from "./Move";
 
 export type PlayableCharacterStats = CharacterStats & {
-  walkingSpeed: number
-  runningSpeed: number
-}
+  walkingSpeed: number;
+  runningSpeed: number;
+};
 
 export default class PlayableCharacter extends Character {
   walkingSpeed: number;
   runningSpeed: number;
-  move: Move;
+  readonly move: Move;
 
-  constructor(layer: HTMLElement, position: CoordinatesObject, stats: PlayableCharacterStats) {
-    super(layer, position, stats)
+  constructor(
+    layer: HTMLElement,
+    position: Point,
+    stats: PlayableCharacterStats,
+    mapCollisions: MapCollisions
+  ) {
+    super(layer, position, stats);
 
-    this.walkingSpeed = stats.walkingSpeed
-    this.runningSpeed = stats.runningSpeed
+    this.walkingSpeed = stats.walkingSpeed;
+    this.runningSpeed = stats.runningSpeed;
 
-    this.move = new Move(this.position, this.walkingSpeed)
+    this.move = new Move(
+      this.position,
+      this.walkingSpeed,
+      new CharacterCollision(position, this.dimensions, mapCollisions)
+    );
   }
 
   startRunning() {
-    this.move.speed = this.runningSpeed
+    this.move.speed = this.runningSpeed;
   }
 
   stopRunning() {
-    this.move.speed = this.walkingSpeed
+    this.move.speed = this.walkingSpeed;
   }
 }
