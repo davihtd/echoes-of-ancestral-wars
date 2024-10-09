@@ -13,14 +13,12 @@ export default class CharacterCollision extends CollisionBox {
   }
 
   isCollisionMovingTo(axis: Axis, toMove: number): boolean {
-    const toAdd = this.topLeftCorner[axis]
-    
     this.addToAxis(axis, toMove)
 
     const collisions = this.#mapCollisions.getNearCollisions(this)
 
-    const collisionWasDetected = collisions.some(collision => {
-      return this.isCollidingCollision(collision)
+    const collisionWasDetected = collisions.some(mapCollision => {
+      return this.isCollidingCollision(mapCollision)
     })
 
     if (collisionWasDetected) {
