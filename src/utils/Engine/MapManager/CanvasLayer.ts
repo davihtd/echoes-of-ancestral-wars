@@ -13,8 +13,10 @@ export default class CanvasLayer extends Element<'canvas'> {
 
     this.map = map
 
-    this._element.style.position = 'absolute';
-    this._element.style.zIndex = `${level}`;
+    const style = this._element.style
+    style.position = 'absolute'
+    style.zIndex = `${level}`
+    style.imageRendering = 'pixelated'
     this._element.width = map.data.pxWidth
     this._element.height = map.data.pxHeight
 
