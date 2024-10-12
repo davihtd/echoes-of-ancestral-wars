@@ -16,7 +16,15 @@ export default class Dimensions {
     return this.dimensions[0];
   }
 
+  get x(): number {
+    return this.dimensions[0];
+  }
+
   get height(): number {
+    return this.dimensions[1];
+  }
+
+  get y(): number {
     return this.dimensions[1];
   }
 

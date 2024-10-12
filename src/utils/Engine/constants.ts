@@ -7,6 +7,6 @@ export enum Layers {
 
 export const Config = {
   SHOW_PLAYER_COLLISION: true,
-  SHOW_COLLISIONS: true,
-  SHOW_COLLISION_ZONES: true,
+  SHOW_COLLISIONS: false,
+  SHOW_COLLISION_ZONES: false,
 };

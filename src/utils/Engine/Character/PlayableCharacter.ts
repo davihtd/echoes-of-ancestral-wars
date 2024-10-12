@@ -1,4 +1,5 @@
-import type MapCollisions from '../MapManager/MapCollisions';
+import { Config } from "../constants";
+import type MapCollisions from "../MapManager/MapCollisions";
 import type Point from "../Utils/Point";
 import Character, { type CharacterStats } from "./Character";
 import CharacterCollision from "./CharacterCollision";
@@ -30,6 +31,8 @@ export default class PlayableCharacter extends Character {
       this.walkingSpeed,
       new CharacterCollision(position, this.dimensions, mapCollisions)
     );
+
+    this.setDebugMode(Config.SHOW_PLAYER_COLLISION, "Player");
   }
 
   startRunning() {
