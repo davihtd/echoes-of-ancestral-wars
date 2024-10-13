@@ -2,31 +2,28 @@ import { Axis } from "../../../types/helpers";
 import FPSController from "../FPSController";
 import type ElementPosition from "../GameObject/ElementPosition";
 import type { CoordinatesObject } from "../Utils/Point";
-import type CharacterCollision from './CharacterCollision';
+import type CharacterCollision from "./CharacterCollision";
 
 type PartialCoordinatesObj = Partial<CoordinatesObject>;
 type Listener = (movement: PartialCoordinatesObj) => void;
 
 export default class Move {
-  speed: number;
-  #position: ElementPosition;
   #subscribers: Listener[] = [];
-  #collision: CharacterCollision;
 
-  constructor(position: ElementPosition, speed: number, collision: CharacterCollision) {
-    this.#position = position;
-    this.speed = speed;
-    this.#collision = collision
-  }
+  constructor(
+    private position: ElementPosition,
+    public speed: number,
+    private collision: CharacterCollision
+  ) {}
 
   #move(axis: Axis, direction: 1 | -1) {
     const toAdd = this.speed * FPSController.delta * direction;
 
-    const isCollision = this.#collision.isCollisionMovingTo(axis, toAdd)
+    const isCollision = this.collision.isCollisionMovingTo(axis, toAdd);
 
     if (isCollision) return;
 
-    this.#position[axis] += toAdd;
+    this.position[axis] += toAdd;
     this.notify({ [axis]: toAdd });
   }
 

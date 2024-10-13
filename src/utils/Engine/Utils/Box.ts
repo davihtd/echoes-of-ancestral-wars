@@ -2,9 +2,6 @@ import type { DimensionsObject } from "./Dimensions";
 import Point from "./Point";
 
 export default class Box {
-  topLeftCorner: Point;
-  bottomRightCorner: Point;
-
   get topRightCorner() {
     return new Point({
       x: this.bottomRightCorner.x,
@@ -19,10 +16,7 @@ export default class Box {
     });
   }
 
-  constructor(topLeftCorner: Point, bottomRightCorner: Point) {
-    this.topLeftCorner = topLeftCorner;
-    this.bottomRightCorner = bottomRightCorner;
-  }
+  constructor(public topLeftCorner: Point, public bottomRightCorner: Point) {}
 
   static getBottomRightCornerFromDimensions(
     topLeftCorner: Point,

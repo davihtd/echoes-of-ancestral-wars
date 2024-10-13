@@ -1,6 +1,6 @@
 import Element from "../../Element";
-import ElementPosition from '../GameObject/ElementPosition';
-import Dimensions from '../Utils/Dimensions';
+import ElementPosition from "../GameObject/ElementPosition";
+import Dimensions from "../Utils/Dimensions";
 import { Layers } from "../constants";
 import Camera from "./Camera";
 import CanvasLayer from "./CanvasLayer";
@@ -19,7 +19,6 @@ export default class MapManager extends Element<"div"> {
   readonly dimensions: Dimensions;
   private position: ElementPosition;
 
-
   constructor(mapContainerID: string, map: Map) {
     const $mapContainer = Element.get("#" + mapContainerID);
     super("div", $mapContainer);
@@ -32,7 +31,7 @@ export default class MapManager extends Element<"div"> {
     };
 
     this.collisions = new MapCollisions(map, this._element);
-    
+
     this.dimensions = new Dimensions({
       width: map.data.pxWidth,
       height: map.data.pxHeight,

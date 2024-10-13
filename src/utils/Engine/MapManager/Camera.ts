@@ -4,14 +4,12 @@ import type ElementPosition from "../GameObject/ElementPosition";
 import type Dimensions from "../Utils/Dimensions";
 
 export default class Camera {
-  private mapPosition: ElementPosition;
-  private readonly mapDimensions: Dimensions;
   zoom = 1;
 
-  constructor(mapPosition: ElementPosition, mapDimensions: Dimensions) {
-    this.mapPosition = mapPosition;
-    this.mapDimensions = mapDimensions;
-  }
+  constructor(
+    private mapPosition: ElementPosition,
+    private readonly mapDimensions: Dimensions
+  ) {}
 
   /**
    * retorna verdadero si la posición de la cámara está dentro del limite de la pantalla
@@ -26,8 +24,7 @@ export default class Camera {
         y: window.innerHeight,
       };
 
-      const positionInAxis =
-        -this.mapPosition[axis] + screenSize[axis];
+      const positionInAxis = -this.mapPosition[axis] + screenSize[axis];
 
       const limit = this.mapDimensions[axis] * this.zoom;
 

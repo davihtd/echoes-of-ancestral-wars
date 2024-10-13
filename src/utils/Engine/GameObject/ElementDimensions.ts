@@ -3,11 +3,7 @@ import getUnitAsNumber from '../utils';
 
 
 export default class ElementDimensions {
-  _element: HTMLElement;
-
-  constructor (element: HTMLElement) {
-    this._element = element
-  }
+  constructor (public _element: HTMLElement) {}
 
   public get width(): number {
     return getUnitAsNumber(this._element.style.width, 'px')

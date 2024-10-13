@@ -1,23 +1,18 @@
 import type { Object, Tileset } from "../../../types/tiled/Tileset";
-import MapCollision from "./MapCollision";
-import Point from "../Utils/Point";
 import Dimensions from "../Utils/Dimensions";
+import Point from "../Utils/Point";
 
 export default class TilesetSelector {
-  readonly data: Tileset;
-  readonly tilesetGlobalID: number;
   readonly img: HTMLImageElement;
 
-  constructor(tileset: Tileset, tilesetID: number) {
-    this.data = tileset;
-    this.tilesetGlobalID = tilesetID;
+  constructor(readonly tileset: Tileset, readonly tilesetGlobalID: number) {
     this.img = new Image();
-    this.img.src = this.data.image;
+    this.img.src = this.tileset.image;
   }
 
   /**El tamaño de cada tile en el tileset */
   get tileDimensions(): Dimensions {
-    return new Dimensions([this.data.tilewidth, this.data.tileheight]);
+    return new Dimensions([this.tileset.tilewidth, this.tileset.tileheight]);
   }
 
   private getLocalID(globalID: number): number {
@@ -26,15 +21,15 @@ export default class TilesetSelector {
 
   /**@returns las coordenadas X e Y en pixeles en el contexto del tileset */
   private getTileCoordinatesFromLocalID(localID: number) {
-    const x = (localID % this.data.columns) * this.data.tilewidth;
-    const y = Math.floor(localID / this.data.columns) * this.data.tileheight;
+    const x = (localID % this.tileset.columns) * this.tileset.tilewidth;
+    const y = Math.floor(localID / this.tileset.columns) * this.tileset.tileheight;
 
     return new Point([x, y]);
   }
 
   /**@returns las coordenadas X e Y en pixeles en el contexto del tileset */
   getTileCoordinates(globalID: number): Point {
-    if (this.data.tilecount == 1) return new Point([0, 0]);
+    if (this.tileset.tilecount == 1) return new Point([0, 0]);
     const localID = this.getLocalID(globalID);
 
     return this.getTileCoordinatesFromLocalID(localID);
@@ -42,7 +37,7 @@ export default class TilesetSelector {
 
   /**@returns las colisiones en crudo */
   getTileRawCollisions(globalID: number): Object[] | null {
-    const tiles = this.data.tiles;
+    const tiles = this.tileset.tiles;
     if (!tiles) return null;
 
     const localID = this.getLocalID(globalID);

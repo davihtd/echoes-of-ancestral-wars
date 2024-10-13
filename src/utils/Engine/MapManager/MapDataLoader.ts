@@ -1,5 +1,6 @@
 import type { MapData, Tileset } from "../../../types/tiled/Map";
 import type { Tileset as LoadedTileset } from "../../../types/tiled/Tileset";
+import { loadImage } from '../utils';
 import Map from "./Map";
 
 class MapDataLoader {
@@ -45,11 +46,3 @@ class MapDataLoader {
 }
 
 export default new MapDataLoader()
-
-async function loadImage(imgPath: string): Promise<void> {
-  return new Promise((resolve) => {
-    const image = new Image();
-    image.src = imgPath;
-    image.addEventListener("load", () => resolve());
-  });
-}

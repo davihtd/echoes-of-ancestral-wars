@@ -5,10 +5,9 @@ import type Map from './Map';
 
 
 export default class CanvasLayer extends Element<'canvas'> {
-  readonly map: Map;
   readonly context: CanvasRenderingContext2D;
 
-  constructor(parent: HTMLElement, level: number, map: Map) {
+  constructor(parent: HTMLElement, level: number, readonly map: Map) {
     super('canvas', parent)
 
     this.map = map

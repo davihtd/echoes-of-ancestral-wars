@@ -10,19 +10,14 @@ import type Point from "../Utils/Point";
 import type CollisionBox from "../Utils/CollisionBox";
 
 export default class MapCollisions {
-  #map: Map;
-  readonly zoneSize: number;
-  readonly collisionZones: Record<string, MapCollision[] | null> = {};
-
-  private mapElement: HTMLElement;
   static SHOW_COLLISIONS = Config.SHOW_COLLISIONS;
   static SHOW_COLLISION_ZONES = Config.SHOW_COLLISION_ZONES;
 
-  constructor(map: Map, mapElement: HTMLElement) {
-    this.#map = map;
-    this.zoneSize = map.data.tilewidth * 5;
+  readonly zoneSize: number;
+  readonly collisionZones: Record<string, MapCollision[] | null> = {};
 
-    this.mapElement = mapElement;
+  constructor(private map: Map, private mapElement: HTMLElement) {
+    this.zoneSize = map.data.tilewidth * 5;
   }
 
   registerLayerGroupCollisions(layerGroup: MapDataLayer) {
@@ -47,9 +42,9 @@ export default class MapCollisions {
     layerWidth: Tiles,
     tileIndex: number
   ) {
-    const tileset = this.#map.getTilesetSelector(globalID);
+    const tileset = this.map.getTilesetSelector(globalID);
     const rawCollisions = tileset.getTileRawCollisions(globalID);
-    const tileCoordinates = this.#map.getTileCoordinates(layerWidth, tileIndex);
+    const tileCoordinates = this.map.getTileCoordinates(layerWidth, tileIndex);
 
     rawCollisions?.map((rawCollision) => {
       const collision = new MapCollision(tileCoordinates, rawCollision);
@@ -121,11 +116,11 @@ export default class MapCollisions {
   }
 
   getNearCollisions(collision: CollisionBox): MapCollision[] {
-    const nearZones = this.getNearZonesIDs(collision)
-    return nearZones.flatMap(zoneID => {
-      const collision = this.collisionZones[zoneID]
-      if (!collision) return []
+    const nearZones = this.getNearZonesIDs(collision);
+    return nearZones.flatMap((zoneID) => {
+      const collision = this.collisionZones[zoneID];
+      if (!collision) return [];
       return collision;
-    })
+    });
   }
 }
