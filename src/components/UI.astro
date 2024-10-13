@@ -2,23 +2,26 @@
   import Element from "../utils/Element";
   import FPSController from "../utils/Engine/FPSController";
   import SpriteSelector from "../utils/Engine/Utils/SpriteSelector";
+  import SpriteSheetFont from "../utils/Engine/Utils/SpriteSheetFont";
 
   const $fps = Element.get<HTMLDivElement>("#fps");
   const $startGameBtn = Element.get<HTMLButtonElement>("#start-game-btn");
   const $stopGameBtn = Element.get<HTMLButtonElement>("#stop-game-btn");
 
-  const fontSelector = new SpriteSelector(
+  const iconSelector = new SpriteSelector(
     "/assets/UI/UI_Wood_Fonts/UI_Font_A.png",
     17,
     18,
     22,
     10
   );
-  await fontSelector.loadSpriteSheet();
+  await iconSelector.loadSpriteSheet();
 
-  const playIcon = fontSelector.getSpriteAsDiv(8, 7);
-  const pauseIcon = fontSelector.getSpriteAsDiv(8, 4);
+  const playIcon = iconSelector.getSpriteAsDiv(8, 7);
+  const pauseIcon = iconSelector.getSpriteAsDiv(8, 4);
+
   $startGameBtn.appendChild(playIcon);
+  $stopGameBtn.appendChild(pauseIcon);
 
   const startGame = () => {
     if (!FPSController.gameIsRunning) {
@@ -47,11 +50,6 @@
     <button id="stop-game-btn">Finalizar juego</button>
   </div>
   <div id="fps" class="ui">FPS: 0</div>
-  <img
-    src="/assets/UI/UI_Wood_Fonts/UI_Font_A.png"
-    alt="UI_Font_A"
-    style="border: 1px solid red;"
-  />
 </>
 
 <style scoped>
@@ -65,10 +63,31 @@
 
     top: 30px;
     right: 30px;
+
+		font-size: 1.5rem;
   }
 
   #game-buttons {
     top: 30px;
     left: 30px;
+    display: flex;
+		gap: 1rem;
+  }
+
+  #game-buttons button {
+    display: flex;
+    text-wrap: nowrap;
+    align-items: center;
+		gap: .5rem;
+
+    background-color: orangered;
+    border: 4px outset orangered;
+
+    font-family: "Pixelify", sans-serif;
+    font-size: 1.5rem;
+  }
+
+  #game-buttons button:active {
+		transform: scale(0.95);
   }
 </style>
