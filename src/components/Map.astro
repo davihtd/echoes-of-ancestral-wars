@@ -1,10 +1,9 @@
 <script>
   import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
-  import MapManager from "../utils/Engine/MapManager/MapManager";
-  import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
-  import setCharacterControls from "../utils/game/controls/character";
-  import { Config } from "../utils/Engine/constants";
-  import Point from "../utils/Engine/Utils/Point";
+import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
+import MapManager from "../utils/Engine/MapManager/MapManager";
+import Point from "../utils/Engine/Utils/Point";
+import setCharacterControls from "../utils/game/controls/character";
 
   const map = await MapDataLoader.getMap("map");
   const mapManager = new MapManager("map-container", map);
@@ -31,3 +30,9 @@
 </script>
 
 <div id="map-container"></div>
+
+<style is:global>
+  #map-container * {
+    font-family: 'Tiny5', sans-serif;
+  }
+</style>
