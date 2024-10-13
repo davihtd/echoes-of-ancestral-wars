@@ -1,30 +1,44 @@
 <script>
-	import Element from "../utils/Element";
-	import FPSController from "../utils/Engine/FPSController";
+  import Element from "../utils/Element";
+  import FPSController from "../utils/Engine/FPSController";
+  import SpriteSelector from "../utils/Engine/Utils/SpriteSelector";
 
-	const $fps = Element.get<HTMLDivElement>("#fps");
-	const $startGameBtn = Element.get<HTMLButtonElement>("#start-game-btn");
-	const $stopGameBtn = Element.get<HTMLButtonElement>("#stop-game-btn");
+  const $fps = Element.get<HTMLDivElement>("#fps");
+  const $startGameBtn = Element.get<HTMLButtonElement>("#start-game-btn");
+  const $stopGameBtn = Element.get<HTMLButtonElement>("#stop-game-btn");
 
-	const startGame = () => {
+  const fontSelector = new SpriteSelector(
+    "/assets/UI/UI_Wood_Fonts/UI_Font_A.png",
+    17,
+    18,
+    22,
+    10
+  );
+  await fontSelector.loadSpriteSheet();
+
+  const playIcon = fontSelector.getSpriteAsDiv(8, 7);
+  const pauseIcon = fontSelector.getSpriteAsDiv(8, 4);
+  $startGameBtn.appendChild(playIcon);
+
+  const startGame = () => {
     if (!FPSController.gameIsRunning) {
-      FPSController.startGame()
+      FPSController.startGame();
     }
   };
 
-	const stopGame = () => {
-		FPSController.stopGame();
-		$fps.innerText = "FPS: 0";
-	};
+  const stopGame = () => {
+    FPSController.stopGame();
+    $fps.innerText = "FPS: 0";
+  };
 
-	const updateFPSView = () => {
-		$fps.innerText = `FPS: ${FPSController.FPS}`;
-	};
+  const updateFPSView = () => {
+    $fps.innerText = `FPS: ${FPSController.FPS}`;
+  };
 
-	$startGameBtn.addEventListener("click", startGame);
-	$stopGameBtn.addEventListener("click", stopGame);
+  $startGameBtn.addEventListener("click", startGame);
+  $stopGameBtn.addEventListener("click", stopGame);
 
-	setInterval(updateFPSView, 1000);
+  setInterval(updateFPSView, 1000);
 </script>
 
 <>
@@ -33,23 +47,28 @@
     <button id="stop-game-btn">Finalizar juego</button>
   </div>
   <div id="fps" class="ui">FPS: 0</div>
+  <img
+    src="/assets/UI/UI_Wood_Fonts/UI_Font_A.png"
+    alt="UI_Font_A"
+    style="border: 1px solid red;"
+  />
 </>
 
 <style scoped>
-	.ui {
-		position: fixed;
-		z-index: 100;
-	}
+  .ui {
+    position: fixed;
+    z-index: 100;
+  }
 
-	#fps {
-		position: fixed;
+  #fps {
+    position: fixed;
 
-		top: 30px;
-		right: 30px;
-	}
+    top: 30px;
+    right: 30px;
+  }
 
-	#game-buttons {
-		top: 30px;
-		left: 30px;
-	}
+  #game-buttons {
+    top: 30px;
+    left: 30px;
+  }
 </style>
