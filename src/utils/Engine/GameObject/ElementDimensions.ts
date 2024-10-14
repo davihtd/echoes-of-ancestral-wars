@@ -5,17 +5,25 @@ import getUnitAsNumber from '../utils';
 export default class ElementDimensions {
   constructor (public _element: HTMLElement) {}
 
-  public get width(): number {
+  get width(): number {
     return getUnitAsNumber(this._element.style.width, 'px')
   }
-  public set width(value: number) {
+  set width(value: number) {
     this._element.style.width = `${value}px`
   }
 
-  public get height(): number {
+  get height(): number {
     return getUnitAsNumber(this._element.style.height, 'px')
   }
-  public set height(value: number) {
+  set height(value: number) {
     this._element.style.height = `${value}px`
+  }
+
+  get x() {
+    return this.width
+  }
+
+  get y() {
+    return this.height
   }
 }

@@ -1,18 +1,26 @@
 <script>
   import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
-import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
-import MapManager from "../utils/Engine/MapManager/MapManager";
-import Point from "../utils/Engine/Utils/Point";
-import setCharacterControls from "../utils/game/controls/character";
+  import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
+import MapGradient from '../utils/Engine/MapManager/MapGradient';
+  import MapManager from "../utils/Engine/MapManager/MapManager";
+  import Point from "../utils/Engine/Utils/Point";
+  import setCharacterControls from "../utils/game/controls/character";
 
   const map = await MapDataLoader.getMap("map");
   const mapManager = new MapManager("map-container", map);
 
+  new MapGradient(mapManager._element, mapManager.dimensions, 64, [
+      [0, "rgba(0, 0, 0, 1)"],
+      [0.6, "rgba(0, 0, 0, 0.6)"],
+      [0.8, "rgba(0, 0, 0, 0.3)"],
+      [1, "rgba(0, 0, 0, 0)"],
+    ]);
+
   const character = new PlayableCharacter(
     mapManager._element,
     new Point({
-      x: 150,
-      y: 200,
+      x: 230,
+      y: 290,
     }),
     {
       health: 100,
@@ -33,6 +41,6 @@ import setCharacterControls from "../utils/game/controls/character";
 
 <style is:global>
   #map-container * {
-    font-family: 'Tiny5', sans-serif;
+    font-family: "Tiny5", sans-serif;
   }
 </style>

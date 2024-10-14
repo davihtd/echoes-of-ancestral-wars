@@ -1,43 +1,15 @@
 import { Axis } from "../../../types/helpers";
 import type PlayableCharacter from "../Character/PlayableCharacter";
 import type ElementPosition from "../GameObject/ElementPosition";
-import type Dimensions from "../Utils/Dimensions";
 
 export default class Camera {
   zoom = 1;
 
   constructor(
-    private mapPosition: ElementPosition,
-    private readonly mapDimensions: Dimensions
+    private mapPosition: ElementPosition
   ) {}
 
-  /**
-   * retorna verdadero si la posición de la cámara está dentro del limite de la pantalla
-   * @param axis x o y
-   * @param position la posición a evaluar
-   * @returns {{boolean}}
-   */
-  isAtLimit(axis: Axis, positiveDirection: boolean): boolean {
-    if (!positiveDirection) {
-      const screenSize = {
-        x: window.innerWidth,
-        y: window.innerHeight,
-      };
-
-      const positionInAxis = -this.mapPosition[axis] + screenSize[axis];
-
-      const limit = this.mapDimensions[axis] * this.zoom;
-
-      return positionInAxis >= limit;
-    } else {
-      const positionInAxis = this.mapPosition[axis];
-      return positionInAxis > 0;
-    }
-  }
-
   private move(axis: Axis, value: number) {
-    const isAtLimit = this.isAtLimit(axis, value > 0);
-    if (isAtLimit) return;
     this.mapPosition[axis] += value * this.zoom;
   }
 
@@ -58,6 +30,24 @@ export default class Camera {
   }
 
   follow(character: PlayableCharacter) {
+    const screenCases = {
+      x: window.innerWidth,
+      y: window.innerHeight,
+    };
+
+    const axisCases = {
+      x: this.moveRight.bind(this),
+      y: this.moveBottom.bind(this),
+    }
+    
+    const centerCharacterOnAxis = (axis: Axis) => {
+      axisCases[axis](character.position[axis] + character.dimensions[axis] / 2);
+      this.mapPosition[axis] += screenCases[axis] / 2;
+    };
+
+    centerCharacterOnAxis(Axis.X);
+    centerCharacterOnAxis(Axis.Y);
+
     character.move.suscribe((movement) => {
       this.moveRight(movement.x || 0);
       this.moveBottom(movement.y || 0);

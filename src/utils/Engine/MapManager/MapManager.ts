@@ -39,7 +39,7 @@ export default class MapManager extends Element<"div"> {
 
     this.position = new ElementPosition(this._element);
 
-    this.camera = new Camera(this.position, this.dimensions);
+    this.camera = new Camera(this.position);
     this.zoom = 3;
 
     this.#prepareMap(map);
