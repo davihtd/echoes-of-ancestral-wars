@@ -1,40 +1,21 @@
 <script>
-  import PlayableCharacter from "../utils/Engine/Character/PlayableCharacter";
   import MapDataLoader from "../utils/Engine/MapManager/MapDataLoader";
-import MapGradient from '../utils/Engine/MapManager/MapGradient';
-  import MapManager from "../utils/Engine/MapManager/MapManager";
-  import Point from "../utils/Engine/Utils/Point";
-  import setCharacterControls from "../utils/game/controls/character";
+import MapGradient from "../utils/Engine/MapManager/MapGradient";
+import MapManager from "../utils/Engine/MapManager/MapManager";
+import prepareCharacter from '../utils/game/characters/playable-characters/prepareCharacter';
 
   const map = await MapDataLoader.getMap("map");
   const mapManager = new MapManager("map-container", map);
 
   new MapGradient(mapManager._element, mapManager.dimensions, 64, [
-      [0, "rgba(0, 0, 0, 1)"],
-      [0.6, "rgba(0, 0, 0, 0.6)"],
-      [0.8, "rgba(0, 0, 0, 0.3)"],
-      [1, "rgba(0, 0, 0, 0)"],
-    ]);
+    [0, "rgba(0, 0, 0, 1)"],
+    [0.6, "rgba(0, 0, 0, 0.6)"],
+    [0.8, "rgba(0, 0, 0, 0.3)"],
+    [1, "rgba(0, 0, 0, 0)"],
+  ]);
 
-  const character = new PlayableCharacter(
-    mapManager._element,
-    new Point({
-      x: 230,
-      y: 290,
-    }),
-    {
-      health: 100,
-      strength: 100,
-      intelligence: 100,
-      walkingSpeed: 40,
-      runningSpeed: 80,
-    },
-    mapManager.collisions
-  );
+  await prepareCharacter(mapManager);
 
-  setCharacterControls(character);
-
-  mapManager.camera.follow(character);
 </script>
 
 <div id="map-container"></div>

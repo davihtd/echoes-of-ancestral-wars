@@ -14,6 +14,13 @@ export default class Point {
     }
   }
 
+  add(value: CoordinatesObject): Point {
+    return new Point({
+      x: this.x + value.x,
+      y: this.y + value.y
+    })
+  }
+
   get x(): number {
     return this.coordinates[0]
   }

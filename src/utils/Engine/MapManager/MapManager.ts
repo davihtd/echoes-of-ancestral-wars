@@ -58,13 +58,22 @@ export default class MapManager extends Element<"div"> {
     map.data.layers.forEach((layer) => {
       console.info(layer.name);
 
+      switch (layer.name) {
+        case "background":
+          this.layers.background.drawTileLayerGroup(layer);
+          break;
+        case "foreground":
+          this.layers.foreground.drawTileLayerGroup(layer);
+          break;
+        case "GameObjects":
+          // agregar a un ObjectLayer y guardar coordenadas en tiles?
+          break;
+        default:
+          console.warn(`Layer "${layer.name}" is not recognized`);
+      }
+
       if (["background", "foreground"].includes(layer.name)) {
-        this.layers?.background.drawTileLayerGroup(layer);
         this.collisions.registerLayerGroupCollisions(layer);
-      } else if (layer.name == "GameObjects") {
-        // agregar a un ObjectLayer y guardar coordenadas en tiles?
-      } else {
-        console.warn(`Layer "${layer.name}" is not recognized`);
       }
     });
   }

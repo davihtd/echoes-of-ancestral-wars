@@ -1,29 +1,33 @@
 import { loadImage } from "../utils";
+import type Dimensions from "./Dimensions";
 import Point from "./Point";
 
 export default class SpriteSelector {
   readonly spriteSheet: HTMLImageElement;
   /** Se accede a la coordenada seleccionando la fila y luego la columna */
   private spriteCoordinates: Record<number, Record<number, Point>>;
+  readonly paddingBetween: number;
 
   constructor(
     readonly spriteSheetPath: string,
     readonly rows: number,
     readonly columns: number,
     readonly spriteSize: number,
-    readonly paddingBetween: number = 0
+    readonly spriteDimensions: Dimensions
   ) {
     this.spriteSheet = new Image();
     this.spriteSheet.src = spriteSheetPath;
     this.spriteCoordinates = {};
+    this.paddingBetween =
+      (spriteDimensions.width - spriteSize * columns) / columns;
   }
 
   /**Carga la imagen del spritesheet, y cachea las coordenadas de cada sprite */
   async loadSpriteSheet() {
     await loadImage(this.spriteSheetPath);
-    for (let row = 0; row < this.rows; row++) {
+    for (let row = 0; row <= this.rows; row++) {
       this.spriteCoordinates[row] = {};
-      for (let column = 0; column < this.columns; column++) {
+      for (let column = 0; column <= this.columns; column++) {
         const spriteCoordinates = this.getSpriteCoordinates(row, column);
         this.spriteCoordinates[row][column] = spriteCoordinates;
       }
@@ -32,7 +36,7 @@ export default class SpriteSelector {
 
   private getSpriteCoordinates(row: number, column: number): Point {
     const multiplier = this.spriteSize + this.paddingBetween;
-    const extraPadding = this.paddingBetween / 2;
+    const extraPadding = 0//this.paddingBetween / 2;
     return new Point({
       x: column * multiplier + extraPadding,
       y: row * multiplier + extraPadding,

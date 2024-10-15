@@ -13,7 +13,7 @@ export default class Move {
   constructor(
     private position: ElementPosition,
     public speed: number,
-    private collision: CharacterCollision
+    private collision: CharacterCollision,
   ) {}
 
   #move(axis: Axis, direction: 1 | -1) {

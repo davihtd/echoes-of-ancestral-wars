@@ -1,32 +1,22 @@
-import { Layers } from '../constants'
-import GameObject from '../GameObject/GameObject'
-import type Point from '../Utils/Point'
+import { Layers } from "../constants";
+import GameObject, { type GameObjectOptions } from "../GameObject/GameObject";
 
 export type CharacterStats = {
-    health: number
-    strength: number
-    intelligence: number
-}
+  health: number;
+  strength: number;
+  intelligence: number;
+};
 
-export default class Character extends GameObject<'div'> {
-    health: number
-    strength: number
-    intelligence: number
+export type CharacterElementRequiredParams = Required<Pick<GameObjectOptions, 'height' | 'width' | 'x' | 'y'>>
 
-    constructor(layer: HTMLElement, position: Point, stats: CharacterStats) {
-        super('div', layer)
+export default class Character extends GameObject<"div"> {
+  constructor(
+    layer: HTMLElement,
+    element: CharacterElementRequiredParams,
+    public stats: CharacterStats
+  ) {
+    super("div", layer, element);
 
-        this._element.style.zIndex = Layers.CHARACTER.toString();
-
-        /**@todo obtener las dimensiones del mapa actual */
-        this.dimensions.width = 16;
-        this.dimensions.height = 16;
-
-        this.position.x = position.x
-        this.position.y = position.y
-
-        this.health = stats.health
-        this.strength = stats.strength
-        this.intelligence = stats.intelligence
-    }
+    this._element.style.zIndex = Layers.CHARACTER.toString();
+  }
 }

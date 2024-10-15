@@ -2,19 +2,19 @@ import type { BasicCallback } from '../../types/helpers';
 import FPSController from './FPSController';
 
 class Controller {
-  #activeKeys: Set<string>;
+  readonly activeKeys: Set<string>;
   /**Donde la clave es un teclado y basic callback un listener */
   #listeners: Record<string, BasicCallback> = {}
 
   constructor () {
-    this.#activeKeys = new Set()
+    this.activeKeys = new Set()
 
     window.addEventListener('keydown', e => {
-      this.#activeKeys.add(e.key.toLowerCase())
+      this.activeKeys.add(e.key.toLowerCase())
     })
 
     window.addEventListener('keyup', e => {
-      this.#activeKeys.delete(e.key.toLowerCase())
+      this.activeKeys.delete(e.key.toLowerCase())
     })
 
     FPSController.addEventListener(() => this.#triggerListeners())
@@ -32,7 +32,7 @@ class Controller {
   }
 
   #triggerListeners() {
-    this.#activeKeys.forEach(key => {
+    this.activeKeys.forEach(key => {
       const listener = this.#listeners[key]
 
       if (!listener) return;

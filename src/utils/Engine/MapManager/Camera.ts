@@ -41,7 +41,7 @@ export default class Camera {
     }
     
     const centerCharacterOnAxis = (axis: Axis) => {
-      axisCases[axis](character.position[axis] + character.dimensions[axis] / 2);
+      axisCases[axis](character.elementPosition[axis] + character.elementDimensions[axis] / 2);
       this.mapPosition[axis] += screenCases[axis] / 2;
     };
 
