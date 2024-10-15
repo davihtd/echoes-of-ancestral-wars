@@ -1,5 +1,6 @@
 import Controller from "../../Engine/Controller";
 import FPSController from "../../Engine/FPSController";
+import AudioQueue from '../../Engine/Utils/AudioQueue';
 import Dimensions from "../../Engine/Utils/Dimensions";
 import SpriteSelector from "../../Engine/Utils/SpriteSelector";
 
@@ -23,8 +24,7 @@ export async function setUIControls(
   const pauseIcon = iconSelector.getSpriteAsDiv(8, 4);
   $startStopGameBtn.appendChild(playIcon);
 
-  const backgroundAudio = new Audio("/assets/audio/background/0.mp3");
-  backgroundAudio.loop = true;
+  const backgroundAudio = new AudioQueue("/assets/audio/background", 2);
 
   const startGame = () => {
     if (FPSController.gameIsRunning) return;
@@ -33,7 +33,7 @@ export async function setUIControls(
 
     FPSController.startGame();
 
-    backgroundAudio.play();
+    backgroundAudio.start();
 
     $startStopGameBtn.innerHTML = "Pausar";
     $startStopGameBtn.appendChild(pauseIcon);
@@ -46,9 +46,9 @@ export async function setUIControls(
     if (!FPSController.gameIsRunning) return;
     FPSController.stopGame();
 
-    document.exitFullscreen();
+    //document.exitFullscreen();
 
-    backgroundAudio.pause();
+    backgroundAudio.stop();
 
     $fps.innerText = "FPS: 0";
 

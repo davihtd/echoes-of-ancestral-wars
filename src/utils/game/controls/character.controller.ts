@@ -13,11 +13,13 @@ export default function setCharacterControls(character: PlayableCharacter) {
     LEFT = "a",
     UP = "w",
     DOWN = "s",
-    RUN = "Shift",
+    RUN = "shift",
   }
 
-  const setWalkInterval = () => {
-    if (!Controller.activeKeys.has(KEYS.RUN)) {
+  const setWalkOrRunInterval = () => {
+    if (Controller.activeKeys.has(KEYS.RUN)) {
+      character.animation.currentInterval = animationIntervals.run;
+    } else {
       character.animation.currentInterval = animationIntervals.walk;
     }
   };
@@ -31,7 +33,7 @@ export default function setCharacterControls(character: PlayableCharacter) {
 
   // derecha
   Controller.setKeyDownEventListener(KEYS.RIGHT, () => {
-    setWalkInterval();
+    setWalkOrRunInterval();
     character.move.right();
     character.animation.setAnimation("move_side");
   });
@@ -41,6 +43,7 @@ export default function setCharacterControls(character: PlayableCharacter) {
 
   // izquierda
   Controller.setKeyDownEventListener(KEYS.LEFT, () => {
+    setWalkOrRunInterval();
     character.move.left();
     character.animation.setAnimation("move_side", true);
   });
@@ -50,7 +53,7 @@ export default function setCharacterControls(character: PlayableCharacter) {
 
   // arriba
   Controller.setKeyDownEventListener(KEYS.UP, () => {
-    setWalkInterval();
+    setWalkOrRunInterval();
     character.move.top();
     if (Controller.activeKeys.has("d")) {
       character.animation.setAnimation("move_side");
@@ -66,7 +69,7 @@ export default function setCharacterControls(character: PlayableCharacter) {
 
   // abajo
   Controller.setKeyDownEventListener(KEYS.DOWN, () => {
-    setWalkInterval();
+    setWalkOrRunInterval();
     character.move.bottom();
     if (Controller.activeKeys.has("d")) {
       character.animation.setAnimation("move_side");
