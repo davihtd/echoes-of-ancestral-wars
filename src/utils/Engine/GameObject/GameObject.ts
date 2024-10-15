@@ -1,5 +1,4 @@
 import Element from "../../Element";
-import getUnitAsNumber from "../utils";
 
 export type GameObjectOptions = {
   x?: number;

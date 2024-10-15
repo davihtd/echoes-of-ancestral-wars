@@ -76,11 +76,9 @@ export default class PlayableCharacter extends Character {
 
   startRunning() {
     this.move.speed = this.runningSpeed;
-    this.animation.currentInterval = 50
   }
 
   stopRunning() {
     this.move.speed = this.walkingSpeed;
-    this.animation.currentInterval = 70
   }
 }

@@ -1,54 +1,17 @@
 <script>
   import Element from "../utils/Element";
-  import FPSController from "../utils/Engine/FPSController";
-  import SpriteSelector from "../utils/Engine/Utils/SpriteSelector";
-  import SpriteSheetFont from "../utils/Engine/Utils/SpriteSheetFont";
+import { setUIControls } from '../utils/game/controls/ui.controller';
 
   const $fps = Element.get<HTMLDivElement>("#fps");
-  const $startGameBtn = Element.get<HTMLButtonElement>("#start-game-btn");
-  const $stopGameBtn = Element.get<HTMLButtonElement>("#stop-game-btn");
-
-  const iconSelector = new SpriteSelector(
-    "/assets/UI/UI_Wood_Fonts/UI_Font_A.png",
-    17,
-    18,
-    22,
-    10
+  const $startStopGameBtn = Element.get<HTMLButtonElement>(
+    "#start-stop-game-btn"
   );
-  await iconSelector.loadSpriteSheet();
 
-  const playIcon = iconSelector.getSpriteAsDiv(8, 7);
-  const pauseIcon = iconSelector.getSpriteAsDiv(8, 4);
-
-  $startGameBtn.appendChild(playIcon);
-  $stopGameBtn.appendChild(pauseIcon);
-
-  const startGame = () => {
-    if (!FPSController.gameIsRunning) {
-      FPSController.startGame();
-    }
-  };
-
-  const stopGame = () => {
-    FPSController.stopGame();
-    $fps.innerText = "FPS: 0";
-  };
-
-  const updateFPSView = () => {
-    $fps.innerText = `FPS: ${FPSController.FPS}`;
-  };
-
-  $startGameBtn.addEventListener("click", startGame);
-  $stopGameBtn.addEventListener("click", stopGame);
-
-  setInterval(updateFPSView, 1000);
+  setUIControls($fps, $startStopGameBtn)
 </script>
 
 <>
-  <div id="game-buttons" class="ui">
-    <button id="start-game-btn">Iniciar juego</button>
-    <button id="stop-game-btn">Finalizar juego</button>
-  </div>
+  <button id="start-stop-game-btn">Iniciar</button>
   <div id="fps" class="ui">FPS: 0</div>
 </>
 
@@ -64,21 +27,20 @@
     top: 30px;
     right: 30px;
 
-		font-size: 1.5rem;
+    font-size: 1.5rem;
   }
 
-  #game-buttons {
+  #start-stop-game-btn {
+    position: fixed;
+    z-index: 100;
+
     top: 30px;
     left: 30px;
-    display: flex;
-		gap: 1rem;
-  }
 
-  #game-buttons button {
     display: flex;
     text-wrap: nowrap;
     align-items: center;
-		gap: .5rem;
+    gap: 0.5rem;
 
     background-color: orangered;
     border: 4px outset orangered;
@@ -87,7 +49,7 @@
     font-size: 1.5rem;
   }
 
-  #game-buttons button:active {
-		transform: scale(0.95);
+  #start-stop-game-btn:active {
+    transform: scale(0.95);
   }
 </style>
