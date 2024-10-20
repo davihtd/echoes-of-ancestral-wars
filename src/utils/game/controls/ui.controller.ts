@@ -24,7 +24,7 @@ export async function setUIControls(
   const pauseIcon = iconSelector.getSpriteAsDiv(8, 4);
   $startStopGameBtn.appendChild(playIcon);
 
-  const backgroundAudio = new AudioQueue("/assets/audio/background", 2);
+  const backgroundAudio = new AudioQueue("/assets/audio/background", 3);
 
   const startGame = () => {
     if (FPSController.gameIsRunning) return;
