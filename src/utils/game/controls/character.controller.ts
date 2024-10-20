@@ -55,9 +55,9 @@ export default function setCharacterControls(character: PlayableCharacter) {
   Controller.setKeyDownEventListener(KEYS.UP, () => {
     setWalkOrRunInterval();
     character.move.top();
-    if (Controller.activeKeys.has("d")) {
+    if (Controller.activeKeys.has(KEYS.RIGHT)) {
       character.animation.setAnimation("move_side");
-    } else if (Controller.activeKeys.has("a")) {
+    } else if (Controller.activeKeys.has(KEYS.LEFT)) {
       character.animation.setAnimation("move_side", true);
     } else {
       character.animation.setAnimation("move_top");
@@ -71,9 +71,9 @@ export default function setCharacterControls(character: PlayableCharacter) {
   Controller.setKeyDownEventListener(KEYS.DOWN, () => {
     setWalkOrRunInterval();
     character.move.bottom();
-    if (Controller.activeKeys.has("d")) {
+    if (Controller.activeKeys.has(KEYS.RIGHT)) {
       character.animation.setAnimation("move_side");
-    } else if (Controller.activeKeys.has("a")) {
+    } else if (Controller.activeKeys.has(KEYS.LEFT)) {
       character.animation.setAnimation("move_side", true);
     } else {
       character.animation.setAnimation("move_bottom");
